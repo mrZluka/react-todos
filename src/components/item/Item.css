@@ -1,0 +1,20 @@
+.todoItem {
+    border: 0 solid white;
+    border-bottom-width: 1px;
+    margin-top: 1rem;
+    color: white;
+}
+
+.todoItem:hover {
+    cursor: pointer;
+}
+
+.todoItem span {
+    user-select: none;
+}
+
+.todoItem.done .text {
+    text-decoration: line-through;
+    border: none;
+    color: #cccccc;
+}
