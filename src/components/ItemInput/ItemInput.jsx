@@ -14,7 +14,7 @@ export class ItemInput extends Component {
     render() {
         return (
             <div className={'item-input'}>
-                    <for name='addItem'>Add item</for>
+                    <label htmlFor='addItem'>Add item</label>
                     <input ref={elem => this.input = elem} type={'text'} name={'addItem'} value={this.props.value} onChange={this.onChangeData}/>
             </div>
         );
