@@ -1,34 +1,31 @@
 import './App.css';
 import {AddItem} from "./components/addItem/AddItem";
-import {useState} from "react";
 import {Item} from "./components/item/Item";
+import {ToDoItemsStore} from "./state/ToDoItemState";
+import { observer } from "mobx-react-lite"
 
-function App() {
-    const [items, setItems] = useState([]);
+const itemStore = new ToDoItemsStore();
+const App = observer(() => {
     const onAddItem = (value) => {
-        setItems([
-            ...items,
-            {
-                id: Date.now(),
-                value,
-                selected: false
-            }]);
+        itemStore.createNewItem(value);
     };
     const onItemStatusChange = ({id, state}) => {
-        setItems(
-            items.map(item => {
-                if (item.id === id) {
-                    item.selected = state;
-                }
-                return item;
-            })
-        )
+        itemStore.changeItemState(id, state);
     };
     const removeItem = (id) => {
-        setItems(
-            items.filter(item => item.id !== id)
-        )
+        itemStore.removeItem(id);
     };
+
+    const TodosView = observer(({ todos }) => (
+        <ul>
+            {todos.map(data => (
+                <Item itemData={data}
+                      key={data.id}
+                      onStatusChange={onItemStatusChange}
+                      removeItem={removeItem} />
+            ))}
+        </ul>
+    ))
 
     return (
         <div className="App">
@@ -37,17 +34,10 @@ function App() {
             </header>
             <AddItem onAddItem={onAddItem}/>
             <main className={"App-body"}>
-                {
-                    items.map((data, ndx) => <Item itemData={data}
-                                                   key={ndx}
-                                                   onStatusChange={onItemStatusChange}
-                                                   removeItem={removeItem}
-                    />)
-                }
-
+                <TodosView todos={itemStore.items}/>
             </main>
         </div>
     );
-}
+});
 
 export default App;
