@@ -1,17 +1,19 @@
 import React from 'react'
-import {ItemInput} from "../input/ItemInput";
-import {ItemButton} from "../button/ItemButton";
+import ItemInput from "../../components/ItemInput";
+import ItemButton from "../../components/ItemButton";
 import './AddItem.css'
 
 export class AddItem extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ""};
-    }
+ 	state = {value: ""};
+	inputComponent = React.createRef();
+	onChange = (value) => {
+		this.setState({value})
+	}
+
     render() {
         return (
                 <div className={'addItem'}>
-                    <ItemInput ref={elem => this.inputComponent = elem} onChange={value => this.setState({value})} value={this.state.value}/>
+                    <ItemInput ref={this.inputComponent}  onChange={this.onChange } value={this.state.value}/>
                     <ItemButton click={this.onAddPressed.bind(this)}>Add</ItemButton>
                     <ItemButton click={this.onClearPressed.bind(this)}>Clear</ItemButton>
                 </div>
@@ -22,7 +24,8 @@ export class AddItem extends React.Component {
         this.setState({
             value: ""
         });
-        this.inputComponent.setFocus();
+
+        this.inputComponent.current.setFocus();
     }
 
     onAddPressed() {

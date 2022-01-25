@@ -1,7 +1,7 @@
 import './App.css';
-import {AddItem} from "./components/addItem/AddItem";
+import AddItem from "./composables/AddItem";
 import {useState} from "react";
-import {Item} from "./components/item/Item";
+import Item from "./components/item";
 
 function App() {
     const [items, setItems] = useState([]);
